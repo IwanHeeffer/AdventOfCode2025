@@ -1,0 +1,74 @@
+import * as fs from 'fs';
+import { PassThrough } from 'stream';
+
+class Device {
+    id: string;
+    output: string[];
+
+    constructor (id: string) {
+        this.id = id;
+        this.output = [];
+    }
+
+    addOutput (output: string) {
+        this.output.push(output);
+    }
+}
+
+function Paths2Out (device: Device):number {
+    if (device.output[0] == 'out') {return result1++} else {
+        for (let i=0; i<device.output.length; i++) {
+            for (let j=0; j<arrDevices.length; j++) {
+                if (arrDevices[j].id == device.output[i]) {Paths2Out(arrDevices[j])}
+            }
+        }
+    } 
+}
+
+function Paths2OutDACFFT (device: Device, dac: number, fft: number):number {
+    let iDAC: number = dac;
+    let iFFT: number = fft;
+
+    if (device.output[0] == 'out' && iDAC>0 && iFFT>0) {return result2++} else {
+        for (let i=0; i<device.output.length; i++) {
+            for (let j=0; j<arrDevices.length; j++) {
+                if (device.output[i] == 'dac') {iDAC++}
+                if (device.output[i] == 'fft') {iFFT++}
+                if (arrDevices[j].id == device.output[i]) {Paths2OutDACFFT(arrDevices[j], iDAC, iFFT)}
+            }
+        }
+    } 
+}
+
+
+const filePath: string = 'input.txt';
+const content: string = fs.readFileSync(filePath, 'utf-8');
+const lines: string[] = content.split(/\r?\n/);
+
+let arrInput: string[][] = [];
+let arrDevices: Device[] = [];
+let result1: number = 0;
+let result2: number = 0;
+
+// zet input in array[][]
+for (let i=0; i<lines.length; i++) {arrInput[i] = lines[i].split(/[:,]\s*|\s+/);}
+
+// zet input in array of devices
+for (let i=0; i<arrInput.length; i++) {
+    arrDevices.push(new Device(arrInput[i][0]));
+    for (let j=1; j<arrInput[i].length; j++) {arrDevices[i].addOutput(arrInput[i][j])}
+}
+
+// PART 1
+for (let i=0; i<arrDevices.length; i++) {
+    // console.log(`Index: ${i} - ID: ${arrDevices[i].id} - Output: ${arrDevices[i].output}`);
+    if (arrDevices[i].id == 'svr') {Paths2Out(arrDevices[i])}
+}
+console.log ('RESULT1: ' + result1);
+
+// PART 2
+for (let i=0; i<arrDevices.length; i++) {
+    // console.log(`Index: ${i} - ID: ${arrDevices[i].id} - Output: ${arrDevices[i].output}`);
+    if (arrDevices[i].id == 'svr') {Paths2OutDACFFT(arrDevices[i], 0, 0)}
+}
+console.log ('RESULT2: ' + result2);

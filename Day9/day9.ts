@@ -22,37 +22,45 @@ for (let i=0; i<arrInputNum.length; i++) {
     }
 }
 
-// // PART 2
-// let xLow, xHigh: number;
-// let yLow, yHigh: number;
-// for (let i=0; i<arrInputNum.length; i++) {
-//     for (let j=0; j<arrInputNum.length; j++) {
-//         if (arrInputNum[i][0] < arrInputNum[j][0])  {
-//             xLow = arrInputNum[i][0];
-//             xHigh = arrInputNum[j][0];
-//         } else {
-//             xLow = arrInputNum[j][0];
-//             xHigh = arrInputNum[i][0];           
-//         }
-//         if (arrInputNum[i][1] < arrInputNum[j][1])  {
-//             yLow = arrInputNum[i][1];
-//             yHigh = arrInputNum[j][1];
-//         } else {
-//             yLow = arrInputNum[j][1];
-//             yHigh = arrInputNum[i][1];           
-//         }
-//         for (let k=0; k<arrInputNum.length; k++) {
-//             let xCheck: number = arrInputNum[k][0];
-//             let yCheck: number = arrInputNum[k][1];
-//             if (!(xCheck>xLow && xCheck<xHigh && yCheck>yLow && yCheck<yHigh)) {
-//                 let area = Math.abs((arrInputNum[i][0] - arrInputNum[j][0]+1) * (arrInputNum[i][1] - arrInputNum[j][1]+1));
-//                 if (result2 < area) {result2 = area}; 
-//             }
-//         }
+// PART 2
+let xLow, xHigh: number;
+let yLow, yHigh: number;
+for (let i=0; i<arrInputNum.length; i++) {
+    for (let j=0; j<arrInputNum.length; j++) {
+        let ok: boolean = true;
+        if (arrInputNum[i][0] < arrInputNum[j][0])  {
+            xLow = arrInputNum[i][0];
+            xHigh = arrInputNum[j][0];
+        } else {
+            xLow = arrInputNum[j][0];
+            xHigh = arrInputNum[i][0];           
+        }
+        if (arrInputNum[i][1] < arrInputNum[j][1])  {
+            yLow = arrInputNum[i][1];
+            yHigh = arrInputNum[j][1];
+        } else {
+            yLow = arrInputNum[j][1];
+            yHigh = arrInputNum[i][1];           
+        }
+        for (let k=0; k<arrInputNum.length; k++) {
+            if (k!=i && k!=j) {
+                let xCheck: number = arrInputNum[k][0];
+                let yCheck: number = arrInputNum[k][1];
+                if (xCheck>xLow && xCheck<xHigh && yCheck>yLow && yCheck<yHigh) {
+                    ok = false;
+                    break;
+                }
+            }
+        }
+        if (ok) {
+            let area = Math.abs((arrInputNum[i][0] - arrInputNum[j][0]+1) * (arrInputNum[i][1] - arrInputNum[j][1]+1));
+            if (result2 < area) {result2 = area}; 
+            console.log (`Xi: ${arrInputNum[i][0]} - Xj: ${arrInputNum[j][0]} - Yi: ${arrInputNum[i][1]} - Yj: ${arrInputNum[j][1]} (${area})`)
+        }
         
-//     }
-// }
+    }
+}
 
 
 console.log (`RESULT1: ${result1}`);
-// console.log (`RESULT2: ${result2}`);
+console.log (`RESULT2: ${result2}`);
