@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 
-const filePath: string = 'inputa.txt';
+const filePath: string = 'input.txt';
 const content: string = fs.readFileSync(filePath, 'utf-8');
 const lines: string[] = content.split(/\r?\n/);
 
